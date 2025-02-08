@@ -9,7 +9,7 @@ jest.mock('colors/safe', () => jest.requireActual('@colors/colors/safe'));
   });
 
   function commonTests(Table) {
-    const colors = require('@colors/colors/safe');
+    const colors = require('ansis');
 
     it('empty table has a width of 0', function () {
       let table = new Table();

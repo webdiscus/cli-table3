@@ -1,5 +1,5 @@
 const Table = require('../src/table');
-const colors = require('@colors/colors/safe');
+const colors = require('ansis');
 const { hyperlink } = require('../src/utils');
 
 // prettier-ignore

@@ -1,5 +1,5 @@
 describe('Cell', function () {
-  const colors = require('@colors/colors');
+  const colors = require('ansis');
   const Cell = require('../src/cell');
   const { ColSpanCell, RowSpanCell } = Cell;
   const utils = require('../src/utils');

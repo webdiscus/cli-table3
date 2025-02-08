@@ -215,9 +215,18 @@ class Cell {
   wrapWithStyleColors(styleProperty, content) {
     if (this[styleProperty] && this[styleProperty].length) {
       try {
-        let colors = require('@colors/colors/safe');
+        let colors = require('ansis');
         for (let i = this[styleProperty].length - 1; i >= 0; i--) {
-          colors = colors[this[styleProperty][i]];
+          let style = this[styleProperty][i];
+          let isHex = style.startsWith('hex');
+          let isBgHex = style.startsWith('bgHex');
+
+          if (isHex || isBgHex) {
+            let value = utils.parseHexValue(style);
+            colors = isBgHex ? colors.bgHex(value) : colors.hex(value);
+          } else {
+            colors = colors[style];
+          }
         }
         return colors(content);
       } catch (e) {

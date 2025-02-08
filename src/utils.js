@@ -332,6 +332,19 @@ function hyperlink(url, text) {
   return [OSC, '8', SEP, SEP, url || text, BEL, text, OSC, '8', SEP, SEP, BEL].join('');
 }
 
+/**
+ * Parse hex value from string like 'hex(#ff00aa)', 'bgHex(#f00aa)'.
+ *
+ * @param {string} text
+ * @return {string} Return a hex value, e.g. '#ff00aa'. If hex value is invalid, return black.
+ */
+function parseHexValue(text) {
+  const regex = /#[0-9a-fA-F]{3,6}/;
+  const [value] = text.match(regex) || ['#000'];
+
+  return value;
+}
+
 module.exports = {
   strlen: strlen,
   repeat: repeat,
@@ -341,4 +354,5 @@ module.exports = {
   wordWrap: multiLineWordWrap,
   colorizeLines: colorizeLines,
   hyperlink,
+  parseHexValue,
 };

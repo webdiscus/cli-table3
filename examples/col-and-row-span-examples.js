@@ -1,5 +1,5 @@
 const Table = require('../src/table');
-const colors = require('@colors/colors/safe');
+const colors = require('ansis');
 
 // prettier-ignore
 // Disable prettier so that examples are formatted more clearly

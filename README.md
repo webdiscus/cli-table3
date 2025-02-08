@@ -29,9 +29,9 @@ unmaintained. `cli-table3` includes all the additional features from
 ## Features
 
 - Customizable characters that constitute the table.
-- Color/background styling in the header through
+- [Color/background](#colors) styling the table through
   [<s>colors.js</s>](https://github.com/marak/colors.js)
-  [@colors/colors](https://github.com/DABH/colors.js)
+  [ansis](https://github.com/webdiscus/ansis).
 - Column width customization
 - Text truncation based on predefined widths
 - Text alignment (left, right, center)
@@ -166,6 +166,159 @@ console.log(table.toString());
 //foo        bar baz
 //frobnicate bar quuz
 ```
+
+<a id="colors" name="colors"></a>
+
+## Colors
+
+You can colorize the text in the table head and the table border with 16 named colors or with truecolor using a hex code.
+The color and styles can be combined.
+
+### Base 16 colors and styles
+
+See the full list of [base named colors and styles](https://github.com/webdiscus/ansis#base-ansi-16-colors-and-styles).
+
+### Truecolor
+
+To apply a custom `truecolor`, use the format `hex(CODE)` for foreground and `bgHex(CODE)` for background, 
+where `CODE` is a 3- or 6-digit hexadecimal code, e.g., `hex(#FFA500)`, `hex(#A7E)`, `bgHex(#FF69B4)`, `bgHex(#49B)`.
+
+### Colorizing table head
+
+Use the `style.head[]` option to style text in the table header.
+
+For example, the header text in base color `green` and styled as `bold` :
+```js
+var table = new Table({ 
+  head: ['Name', 'Age'], 
+  style: { 
+    head: ['green', 'bold'],
+  } 
+});
+
+table.push(['Walter White', '50']);
+
+console.log(table.toString());
+```
+
+Outputs:
+
+![Screenshot](https://i.imgur.com/mUNLz6l.png)
+
+For example, the header text in truecolor `orange` and styled as `italic`:
+```js
+style: {
+  head: ['hex(#FFA500)', 'italic'],
+}
+```
+
+![Screenshot](https://i.imgur.com/mVieAvj.png)
+
+
+### Colorizing table border
+
+Use the `style.border[]` option to specify a border color.
+
+For example, the header text in truecolor `orange` and the border in truecolor `gold`:
+```js
+style: {
+  border: ['hex(#FFD700)'],
+  head: ['hex(#FFA500)', 'italic'],
+}
+```
+
+![Screenshot](https://i.imgur.com/NWzB3nL.png)
+
+
+### Colorizing table cells
+
+To colorize cells can be used [ansis](https://github.com/webdiscus/ansis), which is already included in this package as an optional dependency.
+
+For example, apply an individual color to the single cell in the table body:
+```js
+var ansi = require('ansis');
+var Table = require('cli-table3');
+
+var table = new Table({ 
+  head: ['Name', 'Age'], 
+  style: {
+    border: ['hex(#FFD700)'],
+    head: ['hex(#FFA500)', 'italic'],
+  } 
+});
+
+table.push(
+  // apply a color to cells
+  [ansi.green('Walter White'), ansi.red('50')],
+  [ansi.hex('#FF69B4')('Jesse Pinkman'), ansi.blueBright('24')],
+);
+
+console.log(table.toString());
+```
+
+Outputs:
+
+![Screenshot](https://i.imgur.com/EhnOn9i.png)
+
+For example, colorize the table body with one color:
+```js
+var { green } = require('ansis'); // use a named import when using a few colors
+var Table = require('cli-table3');
+
+var table = new Table({ 
+  head: ['Name', 'Age'], 
+  style: {
+    border: ['hex(#FFD700)'],
+    head: ['hex(#FFA500)', 'italic'],
+  } 
+});
+
+table.push(
+  ['Walter White', '50'],
+  ['Jesse Pinkman', '24'],
+);
+
+var output = green(table.toString()); // colorize the whole table
+
+console.log(output);
+```
+
+Outputs:
+
+![Screenshot](https://i.imgur.com/TGUUzsB.png)
+
+
+### Colorizing table background
+
+To specify the background color you can use a color name with the `bg` prefix, e.g., `bgGreen`, `bgGreenBright` or `gbHex()` for truecolor.
+
+For example, add a background color to the example above:
+```js
+var { green } = require('ansis');
+var Table = require('cli-table3');
+
+var table = new Table({ 
+  head: ['Name', 'Age'], 
+  style: {
+    border: ['hex(#FFD700)'],
+    head: ['hex(#FFA500)', 'italic'],
+  } 
+});
+
+table.push(
+  ['Walter White', '50'],
+  ['Jesse Pinkman', '24'],
+);
+
+var output = green.bgHex('#3d239d')(table.toString()); // <- add a background to the table
+
+console.log(output);
+```
+
+Outputs:
+
+![Screenshot](https://i.imgur.com/SY5ikmJ.png)
+
 
 ## Debugging
 

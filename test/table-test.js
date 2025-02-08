@@ -1,6 +1,6 @@
 describe('@api Table ', function () {
   const Table = require('..');
-  const colors = require('@colors/colors/safe');
+  const colors = require('ansis');
 
   it('wordWrap with colored text', function () {
     let table = new Table({ style: { border: [], head: [] }, wordWrap: true, colWidths: [7, 9] });

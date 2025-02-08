@@ -1,5 +1,5 @@
 describe('utils', function () {
-  const colors = require('@colors/colors/safe');
+  const colors = require('ansis');
   const utils = require('../src/utils');
 
   const { strlen, repeat, pad, truncate, mergeOptions, wordWrap } = utils;
@@ -17,8 +17,8 @@ describe('utils', function () {
       expect(strlen(colors.red('hello'))).toEqual(5);
     });
 
-    it('length of "hello" in zebra is 5', function () {
-      expect(strlen(colors.zebra('hello'))).toEqual(5);
+    it('length of "hello" in bold is 5', function () {
+      expect(strlen(colors.bold('hello'))).toEqual(5);
     });
 
     it('length of "hello\\nhi\\nheynow" is 6', function () {
@@ -99,20 +99,20 @@ describe('utils', function () {
       expect(truncate('goodnight moon', 8, '…')).toEqual('goodnig…');
     });
 
-    it('truncate(colors.zebra("goodnight moon"), 15, "…") == colors.zebra("goodnight moon")', function () {
-      let original = colors.zebra('goodnight moon');
+    it('truncate(colors.bold("goodnight moon"), 15, "…") == colors.bold("goodnight moon")', function () {
+      let original = colors.bold('goodnight moon');
       expect(truncate(original, 15, '…')).toEqual(original);
     });
 
-    it('truncate(colors.zebra("goodnight moon"), 8, "…") == colors.zebra("goodnig") + "…"', function () {
-      let original = colors.zebra('goodnight moon');
-      let expected = colors.zebra('goodnig') + '…';
+    it('truncate(colors.bold("goodnight moon"), 8, "…") == colors.bold("goodnig") + "…"', function () {
+      let original = colors.bold('goodnight moon');
+      let expected = colors.bold('goodnig') + '…';
       expect(truncate(original, 8, '…')).toEqual(expected);
     });
 
-    it('truncate(colors.zebra("goodnight moon"), 9, "…") == colors.zebra("goodnig") + "…"', function () {
-      let original = colors.zebra('goodnight moon');
-      let expected = colors.zebra('goodnigh') + '…';
+    it('truncate(colors.bold("goodnight moon"), 9, "…") == colors.bold("goodnig") + "…"', function () {
+      let original = colors.bold('goodnight moon');
+      let expected = colors.bold('goodnigh') + '…';
       expect(truncate(original, 9, '…')).toEqual(expected);
     });
 
@@ -134,15 +134,15 @@ describe('utils', function () {
       expect(truncate(original, 10)).toEqual(expected);
     });
 
-    it('red-on-green( zebra (hello world) ) truncated to 11 chars', function () {
-      let original = colors.red.bgGreen(colors.zebra('hello world'));
-      let expected = colors.red.bgGreen(colors.zebra('hello world'));
+    it('red-on-green( bold (hello world) ) truncated to 11 chars', function () {
+      let original = colors.red.bgGreen(colors.bold('hello world'));
+      let expected = colors.red.bgGreen(colors.bold('hello world'));
       expect(truncate(original, 11)).toEqual(expected);
     });
 
-    it('red-on-green( zebra (hello world) ) truncated to 10 chars', function () {
-      let original = colors.red.bgGreen(colors.zebra('hello world'));
-      let expected = colors.red.bgGreen(colors.zebra('hello wor')) + '…';
+    it('red-on-green( bold (hello world) ) truncated to 10 chars', function () {
+      let original = colors.red.bgGreen(colors.bold('hello world'));
+      let expected = colors.red.bgGreen(colors.bold('hello wor')) + '…';
       expect(truncate(original, 10)).toEqual(expected);
     });
 
@@ -397,6 +397,44 @@ describe('utils', function () {
     });
     it('defaults text to link', () => {
       expect(utils.hyperlink(url, url)).toEqual(expected(url, url));
+    });
+  });
+
+  describe('parseHexValue', function () {
+    it('hex(#ff00aa)', () => {
+      const received = utils.parseHexValue('hex(#ff00aa)');
+      const expected = '#ff00aa';
+
+      expect(received).toEqual(expected);
+    });
+
+    it('bgHex(#ff00aa)', () => {
+      const received = utils.parseHexValue('bgHex(#ff00aa)');
+      const expected = '#ff00aa';
+
+      expect(received).toEqual(expected);
+    });
+
+    it('hex(#f0a)', () => {
+      const received = utils.parseHexValue('hex(#f0a)');
+      const expected = '#f0a';
+
+      expect(received).toEqual(expected);
+    });
+
+    it('bgHex(#f0a)', () => {
+      const received = utils.parseHexValue('bgHex(#f0a)');
+      const expected = '#f0a';
+
+      expect(received).toEqual(expected);
+    });
+
+    it('invalid hex value', () => {
+      // hex code must have 3 or 6 chars
+      const received = utils.parseHexValue('bgHex(purple)');
+      const expected = '#000';
+
+      expect(received).toEqual(expected);
     });
   });
 });
