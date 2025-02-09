@@ -13,6 +13,7 @@
     "test": "test"
   },
   "dependencies": {
+    "ansis": "3.10.0",
     "string-width": "^4.2.0"
   },
   "devDependencies": {
@@ -27,7 +28,6 @@
     "prettier": "2.3.2"
   },
   "optionalDependencies": {
-    "ansis": "3.10.0"
   },
   "scripts": {
     "changelog": "lerna-changelog",
