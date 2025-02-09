@@ -10,7 +10,7 @@ jobs:
       matrix:
         # Set to the former tested version. Should probably update this
         # to reflect the release schedule. https://nodejs.org/en/about/releases/
-        node-version: [10.x, 12.x, 14.x, 16.x, 18.x, 20.x, 22.x]
+        node-version: [16.x, 18.x, 20.x, 22.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
